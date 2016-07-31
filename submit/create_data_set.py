@@ -13,38 +13,44 @@ def main():
                         default="path/to/directory/")
     parser.add_argument('--save_path',
                         default="/path/to/directory")
-    parser.add_argument('--label',
-                        default=None)
 
     # Arguments
     args = parser.parse_args()
     load_path = args.load_path
     save_path = args.save_path
-    label = args.label
 
     ####################################################################################################################
-    # READ FILES IN FOLDER load_path
+    # READ FILES IN SUB-FOLDERS of load_path
     ####################################################################################################################
 
-    file_list = os.listdir(load_path)
-    feature_extractor = FeatureExtractor(label=label)
+    # list load_path sub-folders
+    directory_list = os.listdir(load_path)
+
+    # initialize empty data frame for results
     concat_features = pd.DataFrame()
 
-    # for label in label:
-    for audio_file in file_list:
-        # load features data
-        data, samplerate = Reader.read_audio_file('/'.join([load_path, audio_file]))
-        all_features = feature_extractor.features(audiodata=data, samplerate=samplerate,
-                                                  window_size=0.05*samplerate, step=0.025*samplerate)
-        avg_features = feature_extractor.avg_features(all_features)
+    # iteration on sub-folders
+    for directory in directory_list:
+        # Instantiate FeatureExtractor
+        feature_extractor = FeatureExtractor(label=directory)
 
-        concat_features = pd.concat([concat_features, avg_features]).reset_index(drop=True)
+        file_list = os.listdir(os.path.join(load_path, directory))
+
+        # iteration on audio files in each sub-folder
+        for audio_file in file_list:
+            data, samplerate = Reader.read_audio_file(os.path.join(load_path, directory, audio_file))
+            all_features = feature_extractor.features(audiodata=data, samplerate=samplerate,
+                                                      window_size=0.05*samplerate, step=0.025*samplerate)
+            avg_features = feature_extractor.avg_features(all_features)
+
+            concat_features = pd.concat([concat_features, avg_features]).reset_index(drop=True)
 
     ####################################################################################################################
     # SAVE
     ####################################################################################################################
 
     # Save DataFrame
+    concat_features.to_csv(os.path.join(save_path, 'dataset.csv'))
 
 
 if __name__ == '__main__':
