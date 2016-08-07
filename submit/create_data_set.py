@@ -3,6 +3,7 @@
 import argparse
 import os
 import pandas as pd
+import re
 
 from compute import Reader, FeatureExtractor
 
@@ -10,9 +11,9 @@ from compute import Reader, FeatureExtractor
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path',
-                        default="path/to/directory/")
+                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/")
     parser.add_argument('--save_path',
-                        default="/path/to/directory")
+                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/Dataset/")
 
     # Arguments
     args = parser.parse_args()
@@ -24,7 +25,9 @@ def main():
     ####################################################################################################################
 
     # list load_path sub-folders
-    directory_list = os.listdir(load_path)
+    # directory_list = os.listdir(load_path)
+    regex = re.compile(r'^[0-9]')
+    directory_list = [i for i in os.listdir(load_path) if regex.search(i)]
 
     # initialize empty data frame for results
     concat_features = pd.DataFrame()
