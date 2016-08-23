@@ -36,4 +36,9 @@ class BabyCryPredictor:
         :return: 1 (it's baby cry); 0 (it's not a baby cry)
         """
 
-        return re.match('([Bb][Aa][Bb][Yy])[^a-zA-Z]*([Cc][Rr][Yy])*', string)
+        match = re.search('([Bb][Aa][Bb][Yy])[^a-zA-Z]*([Cc][Rr][Yy])*', string)
+
+        if match:
+            return 1
+        else:
+            return 0
