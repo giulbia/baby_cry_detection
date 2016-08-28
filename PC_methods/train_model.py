@@ -40,18 +40,17 @@ class TrainClassifier:
         # Split into training and test set
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0, stratify=y)
 
-        # Pipeline
         pipeline = Pipeline([
-            ('scl', StandardScaler()),
-            ('clf', RandomForestClassifier())
+            ('clf', RandomForestClassifier(random_state=0))
         ])
 
-        # GridSearch
         param_grid = [
-            {'clf__n_estimators': [10, 100, 1000], 'clf__criterion': ['gini', 'entropy']}
+            {'clf__n_estimators': [100, 500, 1000],
+             'clf__criterion': ['gini', 'entropy'],
+             'clf__max_depth': [10, 100, 1000]}
         ]
 
-        estimator = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy')
+        estimator = GridSearchCV(pipeline, param_grid, cv=10, scoring='accuracy')
 
         model = estimator.fit(X_train, y_train)
 

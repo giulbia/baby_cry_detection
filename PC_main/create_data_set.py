@@ -5,7 +5,8 @@ import os
 import pandas as pd
 import re
 
-from compute import Reader, FeatureExtractor
+from PC_methods import Reader
+from PC_methods.features import FeatureExtractor
 
 
 def main():
@@ -41,7 +42,8 @@ def main():
 
         # iteration on audio files in each sub-folder
         for audio_file in file_list:
-            data, samplerate = Reader.read_audio_file(os.path.join(load_path, directory, audio_file))
+            file_reader = Reader(os.path.join(load_path, directory, audio_file))
+            data, samplerate = file_reader.read_audio_file()
             all_features = feature_extractor.features(audiodata=data, samplerate=samplerate,
                                                       window_size=0.05*samplerate, step=0.025*samplerate)
             avg_features = feature_extractor.avg_features(all_features)
@@ -53,7 +55,7 @@ def main():
     ####################################################################################################################
 
     # Save DataFrame
-    concat_features.to_csv(os.path.join(save_path, 'dataset.csv'))
+    concat_features.to_csv(os.path.join(save_path, 'dataset.csv'), index=False)
 
 
 if __name__ == '__main__':

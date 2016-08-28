@@ -1,10 +1,11 @@
 import argparse
-import os
-import pandas as pd
-import pickle
 import json
+import os
+import pickle
 
-from compute.model.train_model import TrainClassifier
+import pandas as pd
+
+from PC_methods.train_model import TrainClassifier
 
 
 def main():

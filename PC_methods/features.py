@@ -2,37 +2,11 @@
 
 import pandas as pd
 import numpy as np
-import soundfile as sf
 from pyAudioAnalysis import audioFeatureExtraction
 
 __all__ = [
-    'Reader',
     'FeatureExtractor'
 ]
-
-
-class Reader:
-    """
-    Read input audio file
-    """
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def read_audio_file(cls, filename):
-        """
-        Read audio file using read function of soundfile package
-
-        :param filename: 'path/to/file/filename.mp3'
-        :return:
-        * audiodata as numpy.ndarray. A two-dimensional NumPy array is returned, where the channels are stored
-        along the first dimension, i.e. as columns. If the sound file has only one channel, a one-dimensional array is
-        returned. Use always_2d=True to return a two-dimensional array anyway.
-        * samplerate as int. The sample rate of the audio file
-        """
-
-        return sf.read(filename)
 
 
 class FeatureExtractor:

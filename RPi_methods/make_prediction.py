@@ -26,7 +26,8 @@ class BabyCryPredictor:
 
         category = self.model.predict(new_signal)
 
-        return self._is_baby_cry(category)
+        # category is an array of the kind array(['004 - Baby cry'], dtype=object)
+        return self._is_baby_cry(category[0])
 
     @staticmethod
     def _is_baby_cry(string):
