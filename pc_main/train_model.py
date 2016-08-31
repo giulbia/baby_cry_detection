@@ -5,7 +5,7 @@ import pickle
 
 import pandas as pd
 
-from PC_methods.train_model import TrainClassifier
+from pc_methods.train_classifier import TrainClassifier
 
 
 def main():

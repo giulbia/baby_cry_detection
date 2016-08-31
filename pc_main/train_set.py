@@ -5,8 +5,8 @@ import os
 import pandas as pd
 import re
 
-from PC_methods import Reader
-from PC_methods.features import FeatureExtractor
+from pc_methods import Reader
+from pc_methods.feature_extractor import FeatureExtractor
 
 
 def main():
@@ -26,7 +26,6 @@ def main():
     ####################################################################################################################
 
     # list load_path sub-folders
-    # directory_list = os.listdir(load_path)
     regex = re.compile(r'^[0-9]')
     directory_list = [i for i in os.listdir(load_path) if regex.search(i)]
 

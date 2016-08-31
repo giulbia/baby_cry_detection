@@ -2,15 +2,16 @@ import argparse
 import os
 import pickle
 
-from RPi_methods import Reader
-from RPi_methods.make_prediction import BabyCryPredictor
-from RPi_methods.features import FeatureExtractor
+from rpi_methods import Reader
+from rpi_methods.baby_cry_predictor import BabyCryPredictor
+from rpi_methods.feature_extractor import FeatureExtractor
 
 
 def main():
+    # /!\ ADAPT PATHS /!\
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/NewData/")
+                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/external_input/")
     parser.add_argument('--load_path_model',
                         default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/Model/")
     parser.add_argument('--save_path',
