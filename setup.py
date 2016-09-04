@@ -9,7 +9,7 @@ setup(
     author_email="gbianchi@xebia.fr",
     license='new BSD',
     packages=find_packages(),
-    install_requires=['numpy', 'pandas', 'sklearn', 'pickle', 'json', 'soundfile', 'pyAudioAnalysis'],
+    install_requires=['numpy', 'pandas', 'sklearn', 'pickle', 'json', 'pydub', 'librosa'],
     tests_require=['pytest', "unittest2"],
     scripts=[],
     py_modules=["baby_cry_detection"],

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import soundfile as sf
+import librosa
 
 __all__ = [
     'Reader'
@@ -19,13 +19,13 @@ class Reader:
 
     def read_audio_file(self):
         """
-        Read audio file using read function of soundfile package
+        Read audio file using librosa package. librosa allows re-sampling to desired sample rate and conversion to mono.
 
         :return:
-        * audiodata as numpy.ndarray. A two-dimensional NumPy array is returned, where the channels are stored
+        * audio_data as numpy.ndarray. A two-dimensional NumPy array is returned, where the channels are stored
         along the first dimension, i.e. as columns. If the sound file has only one channel, a one-dimensional array is
-        returned. Use always_2d=True to return a two-dimensional array anyway.
-        * samplerate as int. The sample rate of the audio file
+        returned.
+        * sr as int. The sample rate of the audio file [Hz]
         """
 
-        return sf.read(self.file_name)
+        return librosa.load(self.file_name, sr=44100, mono=True, duration=5.0)

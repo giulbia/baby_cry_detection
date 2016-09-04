@@ -42,7 +42,7 @@ def main():
     # * 1 channel signal.
     # * sampling to 44100 Hz
     # * cut the signal (5 seconds)
-    # * what else ?
+    # DONE BY USING LIBROSA TO READ FILES. MP3 ACCEPTED, WAV FOR SURE
 
     ####################################################################################################################
     # EXTRACT FEATURES
