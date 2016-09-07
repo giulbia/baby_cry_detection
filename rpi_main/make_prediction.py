@@ -13,11 +13,11 @@ def main():
     # /!\ ADAPT PATHS /!\
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/external_input/")
+                        default="~/Documents/baby_cry/Data/Recordings")
     parser.add_argument('--load_path_model',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/Model/")
+                        default="~/Data/Model/")
     parser.add_argument('--save_path',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/Prediction/")
+                        default="~/Data/Prediction/")
 
     # Arguments
     args = parser.parse_args()
