@@ -59,7 +59,7 @@ class Reader:
     @staticmethod
     def _ogg_file_name(string):
         """
-        Split the path to file as 'path/to/file' and 'file_name.wav' and transforms 'file_name.wav' to file_name.ogg'
+        Split the path to file as 'path/to/file' and 'file_name.wav' and transforms 'file_name.wav' to file_name.ogg '
         :param string: file name as a string
         :return: path to new file_name
         """
