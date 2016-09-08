@@ -6,7 +6,7 @@ import pickle
 
 from rpi_methods import Reader
 from rpi_methods.baby_cry_predictor import BabyCryPredictor
-from rpi_methods.feature_extractor import FeatureExtractor
+from rpi_methods.feature_engineer import FeatureEngineer
 
 
 def main():
@@ -32,25 +32,22 @@ def main():
     # Read signal
     file_name = os.listdir(load_path_data)         # [0] /!\ in the real usage there will only be one file in the folder
     file_reader = Reader(os.path.join(load_path_data, file_name))
-    new_signal, sample_rate = file_reader.read_audio_file()
+    play_list = file_reader.read_audio_file()
 
     ####################################################################################################################
-    # PRE-PROCESSING
+    # iteration
     ####################################################################################################################
 
-    # /!\ signal pre-processing to implement: should be a class in the __init__ or in dedicated script
-    # * 1 channel signal.
-    # * sampling to 44100 Hz
-    # * cut the signal (5 seconds)
-    # DONE BY USING LIBROSA TO READ FILES. MP3 ACCEPTED, WAV FOR SURE
+    # iterate on play_list for feature engineering and prediction
 
     ####################################################################################################################
     # EXTRACT FEATURES
     ####################################################################################################################
 
     # Feature extraction
-    feature_extractor = FeatureExtractor(audio_data=new_signal, sample_rate=sample_rate,
-                                         window_size=0.05*sample_rate, step=0.025*sample_rate)
+    feature_extractor = FeatureEngineer()
+
+    # for
     features_df = feature_extractor.avg_features()
 
     ####################################################################################################################
@@ -61,7 +58,14 @@ def main():
         model = pickle.load(fp)
 
     predictor = BabyCryPredictor(model)
+    # for
     prediction = predictor.classify(features_df)
+
+    ##################################
+    # MAJORITY VOTE
+    ####################
+
+    # call majority_vote
 
     ####################################################################################################################
     # SAVE

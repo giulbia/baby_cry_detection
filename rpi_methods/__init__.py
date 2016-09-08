@@ -25,17 +25,23 @@ class Reader:
         Read audio file using librosa package. librosa allows resampling to desired sample rate and convertion to mono.
 
         :return:
-        * audiodata as numpy.ndarray. A two-dimensional NumPy array is returned, where the channels are stored
-        along the first dimension, i.e. as columns. If the sound file has only one channel, a one-dimensional array is
-        returned.
-        * samplerate as int. The sample rate of the audio file
+        * play_list: a list of audio_data as numpy.ndarray. There are 5 overlapping signals, each one is 5-second long.
         """
 
         # Librosa doesn't work for wav files on python 2: https://github.com/librosa/librosa/issues/390
         # return librosa.load(self.file_name, sr=44100, mono=True, duration=5.0)
 
+        play_list = list()
+
         if self._is_mp3_or_ogg(self.file_name):
-            return librosa.load(self.file_name, sr=44100, mono=True, duration=5.0)
+
+            # Split 9 sec signal into 5 5-second-long overlapping signals
+            for offset in range(0, 5):
+                audio_data, _ = librosa.load(self.file_name, sr=44100, mono=True, offset=offset, duration=5.0)
+                play_list.append(audio_data)
+
+            return play_list
+
         else:
             wav_file_pydub = pydub.AudioSegment.from_file(self.file_name)
 
@@ -44,7 +50,11 @@ class Reader:
             with wav_file_pydub.export(ogg_file_name, format='ogg', codec='libvorbis', bitrate='192k') as wav_file:
                 wav_file.close()
 
-            return librosa.load(ogg_file_name, sr=44100, mono=True, duration=5.0)
+            for offset in range(0, 5):
+                audio_data, _ = librosa.load(ogg_file_name, sr=44100, mono=True, offset=offset, duration=5.0)
+                play_list.append(audio_data)
+
+            return play_list
 
     @staticmethod
     def _is_mp3_or_ogg(string):

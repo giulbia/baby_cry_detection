@@ -6,7 +6,7 @@ import pandas as pd
 import re
 
 from pc_methods import Reader
-from pc_methods.feature_extractor import FeatureExtractor
+from pc_methods.feature_engineer import FeatureEngineer
 
 
 def main():
@@ -34,18 +34,16 @@ def main():
 
     # iteration on sub-folders
     for directory in directory_list:
-        # Instantiate FeatureExtractor
-        feature_extractor = FeatureExtractor(label=directory)
+        # Instantiate FeatureEngineer
+        feature_engineer = FeatureEngineer(label=directory)
 
         file_list = os.listdir(os.path.join(load_path, directory))
 
         # iteration on audio files in each sub-folder
         for audio_file in file_list:
             file_reader = Reader(os.path.join(load_path, directory, audio_file))
-            data, samplerate = file_reader.read_audio_file()
-            all_features = feature_extractor.features(audiodata=data, samplerate=samplerate,
-                                                      window_size=0.05*samplerate, step=0.025*samplerate)
-            avg_features = feature_extractor.avg_features(all_features)
+            data, sample_rate = file_reader.read_audio_file()
+            avg_features = feature_engineer.feature_engineer(audio_data=data)
 
             concat_features = pd.concat([concat_features, avg_features]).reset_index(drop=True)
 

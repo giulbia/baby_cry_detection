@@ -5,11 +5,11 @@ import numpy as np
 from pyAudioAnalysis import audioFeatureExtraction
 
 __all__ = [
-    'FeatureExtractor'
+    'FeatureEngineer'
 ]
 
 
-class FeatureExtractor:
+class FeatureEngineer:
     """
     Derive features
     """
