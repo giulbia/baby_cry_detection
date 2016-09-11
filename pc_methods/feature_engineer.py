@@ -42,29 +42,28 @@ class FeatureEngineer:
         :return: a numpy array (numOfFeatures x numOfShortTermWindows)
         """
 
-        zcr_feat = zero_crossing_rate(y=audio_data, hop_length=self.FRAME).transpose()
+        zcr_feat = zero_crossing_rate(y=audio_data, hop_length=self.FRAME)
 
-        rmse_feat = rmse().transpose(y=audio_data, hop_length=self.FRAME)
+        rmse_feat = rmse(y=audio_data, hop_length=self.FRAME)
 
-        mfcc_feat = mfcc(y=audio_data, sr=self.RATE, n_mfcc=13).transpose()
+        mfcc_feat = mfcc(y=audio_data, sr=self.RATE, n_mfcc=13)
 
-        spectral_centroid_feat = spectral_centroid(y=audio_data, sr=self.RATE, hop_length=self.FRAME).transpose()
+        spectral_centroid_feat = spectral_centroid(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
 
-        spectral_rolloff_feat = spectral_rolloff(y=audio_data, sr=self.RATE, hop_length=self.FRAME, roll_percent=0.90)\
-            .transpose()
+        spectral_rolloff_feat = spectral_rolloff(y=audio_data, sr=self.RATE, hop_length=self.FRAME, roll_percent=0.90)
 
-        chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME).transpose()
+        chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
 
         concat_feat = np.concatenate((zcr_feat,
                                       rmse_feat,
                                       mfcc_feat,
                                       spectral_centroid_feat,
                                       spectral_rolloff_feat,
-                                      chroma_cens_feat), axis=1)
+                                      chroma_cens_feat), axis=0)
 
-        median_feat = np.median(concat_feat, axis=1)
+        median_feat = np.median(concat_feat, axis=1, keepdims=True).transpose()
 
-        features_df = pd.DataFrame(data=median_feat, columns=self.COL, index=False)
+        features_df = pd.DataFrame(data=median_feat, columns=self.COL, index=None)
 
         features_df['label'] = self.label
 

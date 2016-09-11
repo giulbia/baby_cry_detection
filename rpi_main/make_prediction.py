@@ -7,17 +7,19 @@ import pickle
 from rpi_methods import Reader
 from rpi_methods.baby_cry_predictor import BabyCryPredictor
 from rpi_methods.feature_engineer import FeatureEngineer
+from rpi_methods.majority_voter import MajorityVoter
 
 
 def main():
     # /!\ ADAPT PATHS /!\
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
                         default="~/Documents/baby_cry/Data/Recordings")
     parser.add_argument('--load_path_model',
-                        default="~/Data/Model/")
+                        default="~/Documents/baby_cry/Data/Model/")
     parser.add_argument('--save_path',
-                        default="~/Data/Prediction/")
+                        default="~/Documents/baby_cry/Data/Prediction/")
 
     # Arguments
     args = parser.parse_args()
@@ -41,14 +43,17 @@ def main():
     # iterate on play_list for feature engineering and prediction
 
     ####################################################################################################################
-    # EXTRACT FEATURES
+    # FEATURE ENGINEERING
     ####################################################################################################################
 
     # Feature extraction
-    feature_extractor = FeatureEngineer()
+    engineer = FeatureEngineer()
 
-    # for
-    features_df = feature_extractor.avg_features()
+    play_list_processed = list()
+
+    for signal in play_list:
+        tmp = engineer.feature_engineer(signal)
+        play_list_processed.append(tmp)
 
     ####################################################################################################################
     # MAKE PREDICTION
@@ -58,14 +63,19 @@ def main():
         model = pickle.load(fp)
 
     predictor = BabyCryPredictor(model)
-    # for
-    prediction = predictor.classify(features_df)
 
-    ##################################
+    predictions = list()
+
+    for signal in play_list_processed:
+        tmp = predictor.classify(signal)
+        predictions.append(tmp)
+
+    ####################################################################################################################
     # MAJORITY VOTE
-    ####################
+    ####################################################################################################################
 
-    # call majority_vote
+    majority_voter = MajorityVoter(predictions)
+    majority_vote = majority_voter.vote()
 
     ####################################################################################################################
     # SAVE
@@ -73,7 +83,7 @@ def main():
 
     # Save prediction result
     with open(os.path.join(save_path, 'prediction.txt'), 'wb') as text_file:
-        text_file.write("{0}".format(prediction))
+        text_file.write("{0}".format(majority_vote))
 
 if __name__ == '__main__':
     main()
