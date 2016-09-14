@@ -2,7 +2,11 @@
 
 import argparse
 import os
+import sys
 import pickle
+
+egg_path = '%s/../lib/baby_cry_detection-0.1-py2.7.egg' % os.path.dirname(os.path.abspath(__file__))
+sys.path.append(egg_path)
 
 from rpi_methods import Reader
 from rpi_methods.baby_cry_predictor import BabyCryPredictor
