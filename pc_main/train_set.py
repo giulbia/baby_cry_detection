@@ -12,9 +12,9 @@ from pc_methods.feature_engineer import FeatureEngineer
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/")
+                        default='%s/../data' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--save_path',
-                        default="/Users/giuliabianchi/Documents/Xebia/XebiCon16/ESC-10/Scripts/Output/Dataset/")
+                        default='%s/../../output/dataset/' % os.path.dirname(os.path.abspath(__file__)))
 
     # Arguments
     args = parser.parse_args()
