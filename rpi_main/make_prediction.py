@@ -19,11 +19,11 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default="~/Documents/baby_cry/Data/Recordings")
+                        default='%s/../recording/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--load_path_model',
-                        default="~/Documents/baby_cry/Data/Model/")
+                        default='%s/../model/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--save_path',
-                        default="~/Documents/baby_cry/Data/Prediction/")
+                        default='%s/../prediction/' % os.path.dirname(os.path.abspath(__file__)))
 
     # Arguments
     args = parser.parse_args()
@@ -36,7 +36,7 @@ def main():
     ####################################################################################################################
 
     # Read signal
-    file_name = os.listdir(load_path_data)         # [0] /!\ in the real usage there will only be one file in the folder
+    file_name = os.listdir(load_path_data)         # only one file in the folder
     file_reader = Reader(os.path.join(load_path_data, file_name))
     play_list = file_reader.read_audio_file()
 
