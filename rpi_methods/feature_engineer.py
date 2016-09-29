@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
+# import pandas as pd
 import numpy as np
-from librosa.feature import zero_crossing_rate, rmse, mfcc, spectral_centroid, spectral_rolloff, chroma_cens
+from librosa.feature import zero_crossing_rate, rmse, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth
+#chroma_cens
 
 __all__ = [
     'FeatureEngineer'
@@ -19,11 +20,12 @@ class FeatureEngineer:
 
     # Features' names
     COL = ['zcr', 'rms_energy',
-           'mfcc1', 'mfcc2', 'mfcc3', 'mfcc4', 'mfcc5', 'mfcc6', 'mfcc7', 'mfcc8', 'mfcc9', 'mfcc10', 'mfcc11',
-           'mfcc12', 'mfcc13',
-           'sp_centroid', 'sp_rolloff',
-           'chroma1', 'chroma2', 'chroma3', 'chroma4', 'chroma5', 'chroma6', 'chroma7',
-           'chroma8', 'chroma9', 'chroma10', 'chroma11', 'chroma12']
+           'mfcc0', 'mfcc1', 'mfcc2', 'mfcc3', 'mfcc4', 'mfcc5', 'mfcc6', 'mfcc7', 'mfcc8', 'mfcc9', 'mfcc10', 'mfcc11',
+           'mfcc12',
+           'sp_centroid', 'sp_rolloff', 'sp_bw'
+           # 'chroma1', 'chroma2', 'chroma3', 'chroma4', 'chroma5', 'chroma6', 'chroma7',
+           # 'chroma8', 'chroma9', 'chroma10', 'chroma11', 'chroma12'
+           ]
 
     def __init__(self):
         pass
@@ -49,13 +51,17 @@ class FeatureEngineer:
 
         spectral_rolloff_feat = spectral_rolloff(y=audio_data, sr=self.RATE, hop_length=self.FRAME, roll_percent=0.90)
 
-        chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
+        spectral_bandwidth_feat = spectral_bandwidth(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
+
+        # chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
 
         concat_feat = np.concatenate((zcr_feat,
                                       rmse_feat,
                                       mfcc_feat,
                                       spectral_centroid_feat,
                                       spectral_rolloff_feat,
-                                      chroma_cens_feat), axis=0)
+                                      # chroma_cens_feat
+                                      spectral_bandwidth_feat
+                                      ), axis=0)
 
-        return np.median(concat_feat, axis=1, keepdims=True).transpose()
+        return np.mean(concat_feat, axis=1, keepdims=True).transpose()
