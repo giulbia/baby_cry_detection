@@ -36,8 +36,8 @@ class Reader:
         # Trim 5 seconds
         sound_5s = silent_template.overlay(sound[0:5000])
 
-        # Convert to AudioSegment object to array. /!\ should it be float32 ??? /!\
-        audio_data = (np.fromstring(sound_5s._data, dtype="int16") + 0.00000000001) / (0x7FFF + 0.00000000001)
+        # Convert to AudioSegment object to array.
+        audio_data = (np.fromstring(sound_5s.raw_data, dtype="int16") + 0.0) / 0x7FFF
 
         # Sample rate
         sr = sound.frame_rate
