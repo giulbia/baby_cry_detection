@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
-import numpy as np
-
-
 from sklearn.cross_validation import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
-from sklearn.grid_search import GridSearchCV
+# from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 
 
@@ -41,14 +38,12 @@ class TrainClassifier:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0, stratify=y)
 
         pipeline = Pipeline([
-            ('clf', RandomForestClassifier(random_state=0))
+            ('scl', StandardScaler()),
+            ('clf', SVC(probability=True))
         ])
 
-        param_grid = [
-            {'clf__n_estimators': [100, 500, 1000],
-             'clf__criterion': ['gini', 'entropy'],
-             'clf__max_depth': [10, 100, 1000]}
-        ]
+        # GridSearch
+        param_grid = [{'clf__kernel': ['linear'], 'clf__C': [1, 1.5, 2, 5]}]
 
         estimator = GridSearchCV(pipeline, param_grid, cv=10, scoring='accuracy')
 
@@ -62,4 +57,6 @@ class TrainClassifier:
                 'f1': f1_score(y_test, y_pred, average='micro')}
 
         return perf, model.best_params_, model.best_estimator_
+
+
 
