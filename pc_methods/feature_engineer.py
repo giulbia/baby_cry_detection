@@ -2,6 +2,8 @@
 
 import pandas as pd
 import numpy as np
+import logging
+import timeit
 from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth
 # chroma_cens, rmse
 
@@ -44,19 +46,61 @@ class FeatureEngineer:
         :return: a numpy array (numOfFeatures x numOfShortTermWindows)
         """
 
+        logging.info('Computing zero_crossing_rate...')
+        start = timeit.default_timer()
+
         zcr_feat = zero_crossing_rate(y=audio_data, hop_length=self.FRAME)
 
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
+
+        # logging.info('Computing rmse...')
+        # start = timeit.default_timer()
+        #
         # rmse_feat = rmse(y=audio_data, hop_length=self.FRAME)
+        #
+        # stop = timeit.default_timer()
+        # logging.info('Time taken: {0}'.format(stop - start))
+
+        logging.info('Computing mfcc...')
+        start = timeit.default_timer()
 
         mfcc_feat = mfcc(y=audio_data, sr=self.RATE, n_mfcc=13)
 
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
+
+        logging.info('Computing spectral centroid...')
+        start = timeit.default_timer()
+
         spectral_centroid_feat = spectral_centroid(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
+
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
+
+        logging.info('Computing spectral rolloff...')
+        start = timeit.default_timer()
 
         spectral_rolloff_feat = spectral_rolloff(y=audio_data, sr=self.RATE, hop_length=self.FRAME, roll_percent=0.90)
 
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
+
+        logging.info('Computing spectral bandwidth...')
+        start = timeit.default_timer()
+
         spectral_bandwidth_feat = spectral_bandwidth(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
 
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
+
+        # logging.info('Computing chroma cens...')
+        # start = timeit.default_timer()
+        #
         # chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
+        #
+        # stop = timeit.default_timer()
+        # logging.info('Time taken: {0}'.format(stop - start))
 
         concat_feat = np.concatenate((zcr_feat,
                                       # rmse_feat,
@@ -67,7 +111,13 @@ class FeatureEngineer:
                                       spectral_bandwidth_feat
                                       ), axis=0)
 
+        logging.info('Averaging...')
+        start = timeit.default_timer()
+
         median_feat = np.mean(concat_feat, axis=1, keepdims=True).transpose()
+
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
 
         features_df = pd.DataFrame(data=median_feat, columns=self.COL, index=None)
 

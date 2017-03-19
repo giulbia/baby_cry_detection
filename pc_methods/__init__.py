@@ -1,5 +1,7 @@
 import pydub
 import numpy as np
+import logging
+import timeit
 
 __all__ = [
     'Reader'
@@ -27,6 +29,10 @@ class Reader:
         * sr as int. The sample rate of the audio file [Hz]
         """
 
+        logging.info('Reading file: {0} ...'.format(self.file_name))
+
+        start = timeit.default_timer()
+
         # Create a silent sound of exactly 5 seconds
         silent_template = pydub.AudioSegment.silent(duration=5000)
 
@@ -36,10 +42,14 @@ class Reader:
         # Trim 5 seconds
         sound_5s = silent_template.overlay(sound[0:5000])
 
-        # Convert to AudioSegment object to array.
+        # Convert AudioSegment object to array.
         audio_data = (np.fromstring(sound_5s.raw_data, dtype="int16") + 0.0) / 0x7FFF
 
         # Sample rate
         sr = sound.frame_rate
+
+        stop = timeit.default_timer()
+
+        logging.info('Time taken: {0}'.format(stop - start))
 
         return audio_data, sr
