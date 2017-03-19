@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from sklearn.cross_validation import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
-# from sklearn.grid_search import GridSearchCV
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
+import logging
+import timeit
 
 
 __all__ = [
@@ -34,8 +34,12 @@ class TrainClassifier:
         X = dataset.iloc[:, :-1]
         y = dataset['label']
 
+        logging.info('Splitting train and test set. Test set size: 0.25%')
+
         # Split into training and test set
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0, stratify=y)
+
+        logging.info('Train set size: {0}. Test set size: {1}'.format(y_train.size, y_test.size))
 
         pipeline = Pipeline([
             ('scl', StandardScaler()),
@@ -47,7 +51,13 @@ class TrainClassifier:
 
         estimator = GridSearchCV(pipeline, param_grid, cv=10, scoring='accuracy')
 
+        logging.info('Training model...')
+        start = timeit.default_timer()
+
         model = estimator.fit(X_train, y_train)
+
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
 
         y_pred = model.predict(X_test)
 
@@ -55,6 +65,8 @@ class TrainClassifier:
                 'recall': recall_score(y_test, y_pred, average='micro'),
                 'precision': precision_score(y_test, y_pred, average='micro'),
                 'f1': f1_score(y_test, y_pred, average='micro')}
+
+        logging.info(perf)
 
         return perf, model.best_params_, model.best_estimator_
 
