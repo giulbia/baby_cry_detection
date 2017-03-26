@@ -1,5 +1,4 @@
-import pydub
-import numpy as np
+import librosa
 import logging
 import timeit
 
@@ -33,20 +32,7 @@ class Reader:
 
         start = timeit.default_timer()
 
-        # Create a silent sound of exactly 5 seconds
-        silent_template = pydub.AudioSegment.silent(duration=5000)
-
-        # Read file
-        sound = pydub.AudioSegment.from_file(self.file_name)
-
-        # Trim 5 seconds
-        sound_5s = silent_template.overlay(sound[0:5000])
-
-        # Convert AudioSegment object to array.
-        audio_data = (np.fromstring(sound_5s.raw_data, dtype="int16") + 0.0) / 0x7FFF
-
-        # Sample rate
-        sr = sound.frame_rate
+        audio_data, sr = librosa.load(self.file_name, sr=44100, mono=True, duration=5)
 
         stop = timeit.default_timer()
 

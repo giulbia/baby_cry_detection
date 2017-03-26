@@ -4,8 +4,8 @@ import pandas as pd
 import numpy as np
 import logging
 import timeit
-from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth
-# chroma_cens, rmse
+from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth,\
+    chroma_cens, rmse
 
 __all__ = [
     'FeatureEngineer'
@@ -21,7 +21,7 @@ class FeatureEngineer:
     FRAME = 512    # Frame size in samples
 
     # Features' names
-    COL = ['zcr', # 'rms_energy',
+    COL = ['zcr', 'rms_energy',
            'mfcc0', 'mfcc1', 'mfcc2', 'mfcc3', 'mfcc4', 'mfcc5', 'mfcc6', 'mfcc7', 'mfcc8', 'mfcc9', 'mfcc10', 'mfcc11',
            'mfcc12',
            'sp_centroid', 'sp_rolloff', 'sp_bw'
@@ -54,13 +54,13 @@ class FeatureEngineer:
         stop = timeit.default_timer()
         logging.info('Time taken: {0}'.format(stop - start))
 
-        # logging.info('Computing rmse...')
-        # start = timeit.default_timer()
-        #
-        # rmse_feat = rmse(y=audio_data, hop_length=self.FRAME)
-        #
-        # stop = timeit.default_timer()
-        # logging.info('Time taken: {0}'.format(stop - start))
+        logging.info('Computing rmse...')
+        start = timeit.default_timer()
+
+        rmse_feat = rmse(y=audio_data, hop_length=self.FRAME)
+
+        stop = timeit.default_timer()
+        logging.info('Time taken: {0}'.format(stop - start))
 
         logging.info('Computing mfcc...')
         start = timeit.default_timer()
@@ -97,17 +97,18 @@ class FeatureEngineer:
         # logging.info('Computing chroma cens...')
         # start = timeit.default_timer()
         #
+        # # http://stackoverflow.com/questions/41896123/librosa-feature-tonnetz-ends-up-in-typeerror
         # chroma_cens_feat = chroma_cens(y=audio_data, sr=self.RATE, hop_length=self.FRAME)
         #
         # stop = timeit.default_timer()
         # logging.info('Time taken: {0}'.format(stop - start))
 
         concat_feat = np.concatenate((zcr_feat,
-                                      # rmse_feat,
+                                      rmse_feat,
                                       mfcc_feat,
                                       spectral_centroid_feat,
                                       spectral_rolloff_feat,
-                                      # chroma_cens_feat
+                                      # chroma_cens_feat,
                                       spectral_bandwidth_feat
                                       ), axis=0)
 
