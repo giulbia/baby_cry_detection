@@ -4,13 +4,11 @@ import argparse
 import json
 import os
 import pickle
-
-import pandas as pd
+import numpy as np
 
 from pc_methods.train_classifier import TrainClassifier
 
 import logging
-import timeit
 
 
 def main():
@@ -44,10 +42,11 @@ def main():
 
     logging.info('Calling TrainClassifier')
 
-    train_set = pd.read_csv(os.path.join(load_path, 'dataset.csv'))
+    X = np.load(os.path.join(load_path, 'dataset.npy'))
+    y = np.load(os.path.join(load_path, 'labels.npy'))
 
-    train_classifier = TrainClassifier()
-    performance, parameters, best_estimator = train_classifier.train(train_set)
+    train_classifier = TrainClassifier(X, y)
+    performance, parameters, best_estimator = train_classifier.train()
 
     ####################################################################################################################
     # SAVE

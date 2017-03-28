@@ -20,15 +20,6 @@ class FeatureEngineer:
     RATE = 44100   # All recordings in ESC are 44.1 kHz
     FRAME = 512    # Frame size in samples
 
-    # Features' names
-    COL = ['zcr', 'rms_energy',
-           'mfcc0', 'mfcc1', 'mfcc2', 'mfcc3', 'mfcc4', 'mfcc5', 'mfcc6', 'mfcc7', 'mfcc8', 'mfcc9', 'mfcc10', 'mfcc11',
-           'mfcc12',
-           'sp_centroid', 'sp_rolloff', 'sp_bw'
-           # 'chroma1', 'chroma2', 'chroma3', 'chroma4', 'chroma5', 'chroma6', 'chroma7',
-           # 'chroma8', 'chroma9', 'chroma10', 'chroma11', 'chroma12'
-           ]
-
     def __init__(self, label=None):
         if label is None:
             self.label = ''
@@ -115,13 +106,9 @@ class FeatureEngineer:
         logging.info('Averaging...')
         start = timeit.default_timer()
 
-        median_feat = np.mean(concat_feat, axis=1, keepdims=True).transpose()
+        mean_feat = np.mean(concat_feat, axis=1, keepdims=True).transpose()
 
         stop = timeit.default_timer()
         logging.info('Time taken: {0}'.format(stop - start))
 
-        features_df = pd.DataFrame(data=median_feat, columns=self.COL, index=None)
-
-        features_df['label'] = self.label
-
-        return features_df
+        return mean_feat, self.label

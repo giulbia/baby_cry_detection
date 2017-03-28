@@ -5,6 +5,7 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
+import numpy as np
 import logging
 import timeit
 
@@ -19,25 +20,24 @@ class TrainClassifier:
     Class to train a classifier of audio signals
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, X, y):
+        self.X = X
+        self.y = y
 
-    def train(self, dataset):
+    def train(self):
         """
         Train Random Forest
 
-        :param dataset: pandas DataFrame with all features and actual label of signals
         :return: pipeline, best_param, best_estimator, perf
         """
-
-        # Isolate features and label
-        X = dataset.iloc[:, :-1]
-        y = dataset['label']
 
         logging.info('Splitting train and test set. Test set size: 0.25%')
 
         # Split into training and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0, stratify=y)
+        X_train, X_test, y_train, y_test = train_test_split(self.X, self.y,
+                                                            test_size=0.25,
+                                                            random_state=0,
+                                                            stratify=self.y)
 
         logging.info('Train set size: {0}. Test set size: {1}'.format(y_train.size, y_test.size))
 
@@ -47,7 +47,9 @@ class TrainClassifier:
         ])
 
         # GridSearch
-        param_grid = [{'clf__kernel': ['linear'], 'clf__C': [1, 1.5, 2, 5]}]
+        param_grid = [{'clf__kernel': ['linear'],
+                       'clf__C': [0.001, 0.01, 0.1, 1, 10, 100],
+                       'clf__gamma': np.logspace(-2, 2, 5)}]
 
         estimator = GridSearchCV(pipeline, param_grid, cv=10, scoring='accuracy')
 

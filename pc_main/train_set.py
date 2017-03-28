@@ -2,7 +2,7 @@
 
 import argparse
 import os
-import pandas as pd
+import numpy as np
 import logging
 import re
 import timeit
@@ -44,14 +44,18 @@ def main():
     regex = re.compile(r'^[0-9]')
     directory_list = [i for i in os.listdir(load_path) if regex.search(i)]
 
-    # initialize empty data frame for results
-    concat_features = pd.DataFrame()
+    # initialize empty array for features
+    X = np.empty([1, 18])
+
+    # initialise empty array for labels
+    y = []
 
     logging.info('Creating training set...')
     start = timeit.default_timer()
 
     # iteration on sub-folders
     for directory in directory_list:
+
         # Instantiate FeatureEngineer
         feature_engineer = FeatureEngineer(label=directory)
 
@@ -61,9 +65,13 @@ def main():
         for audio_file in file_list:
             file_reader = Reader(os.path.join(load_path, directory, audio_file))
             data, sample_rate = file_reader.read_audio_file()
-            avg_features = feature_engineer.feature_engineer(audio_data=data)
+            avg_features, label = feature_engineer.feature_engineer(audio_data=data)
 
-            concat_features = pd.concat([concat_features, avg_features]).reset_index(drop=True)
+            X = np.concatenate((X, avg_features), axis=0)
+            y.append(label)
+
+    # X.shape is (401, 18) as I'm not using indexing. First line is made of zeros and is to be removed
+    X = X[1:, :]
 
     stop = timeit.default_timer()
     logging.info('Time taken for reading files and feature engineering: {0}'.format(stop - start))
@@ -74,10 +82,13 @@ def main():
 
     logging.info('Saving training set...')
 
-    # Save DataFrame
-    concat_features.to_csv(os.path.join(save_path, 'dataset.csv'), index=False)
+    # Save to numpy binary format
+    np.save(os.path.join(save_path, 'dataset.npy'), X)
 
-    logging.info('Saved! {0}'.format(os.path.join(save_path, 'dataset.csv')))
+    np.save(os.path.join(save_path, 'labels.npy'), y)
+
+    logging.info('Saved! {0}'.format(os.path.join(save_path, 'dataset.npy')))
+    logging.info('Saved! {0}'.format(os.path.join(save_path, 'labels.npy')))
 
 
 if __name__ == '__main__':
