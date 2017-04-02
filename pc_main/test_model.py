@@ -19,7 +19,7 @@ def main():
                         default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--save_path',
                         default='%s/../../output/prediction/' % os.path.dirname(os.path.abspath(__file__)))
-    parser.add_argument('--file_name', default='Louise_01.m4a')
+    parser.add_argument('--file_name', default='V_2017-04-01+08_04_36=0_13.mp3')
     parser.add_argument('--log_path',
                         default='%s/../' % os.path.dirname(os.path.abspath(__file__)))
 
