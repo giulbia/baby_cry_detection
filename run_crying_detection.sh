@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 PREDICTION=1
 PLAYING=0
 CPT=0
