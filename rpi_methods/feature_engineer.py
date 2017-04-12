@@ -45,6 +45,11 @@ class FeatureEngineer:
 
         rmse_feat = rmse(y=audio_data, hop_length=self.FRAME)
 
+        if rmse_feat.shape == (1, 427):
+            rmse_feat = np.concatenate((rmse_feat, np.zeros((1, 4))), axis=1)
+
+        # rmse_feat = np.concatenate((rmse(y=audio_data, hop_length=self.FRAME), np.zeros((1, 4))), axis=1)
+
         mfcc_feat = mfcc(y=audio_data, sr=self.RATE, n_mfcc=13)
 
         spectral_centroid_feat = spectral_centroid(y=audio_data, sr=self.RATE, hop_length=self.FRAME)

@@ -49,7 +49,7 @@ class TrainClassifier:
         ])
 
         # GridSearch
-        param_grid = [{'clf__kernel': ['linear'],
+        param_grid = [{'clf__kernel': ['linear', 'rbf'],
                        'clf__C': [0.001, 0.01, 0.1, 1, 10, 100],
                        'clf__gamma': np.logspace(-2, 2, 5),
                        # 'lda__n_components': range(2, 17)
@@ -68,10 +68,11 @@ class TrainClassifier:
         y_pred = model.predict(X_test)
 
         perf = {'accuracy': accuracy_score(y_test, y_pred),
-                'recall': recall_score(y_test, y_pred, average='micro'),
-                'precision': precision_score(y_test, y_pred, average='micro'),
-                'f1': f1_score(y_test, y_pred, average='micro'),
-                'summary': classification_report(y_test, y_pred)}
+                'recall': recall_score(y_test, y_pred, average='macro'),
+                'precision': precision_score(y_test, y_pred, average='macro'),
+                'f1': f1_score(y_test, y_pred, average='macro'),
+                # 'summary': classification_report(y_test, y_pred)
+                }
 
         logging.info(perf)
 
