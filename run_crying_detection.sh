@@ -26,7 +26,7 @@ function predict() {
 	echo "Predicting..."
 	echo -n "What is the prediction ?"
 	python /opt/baby_cry_rpi/script/make_prediction.py
-	PREDICTION=$(cat /opt/baby_cry/prediction/prediction.txt)
+	PREDICTION=$(cat /opt/baby_cry_rpi/prediction/prediction.txt)
 	echo "Prediction is $PREDICTION"
 }
 
