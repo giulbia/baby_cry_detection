@@ -20,5 +20,5 @@ The code is organised according to following schema:
   it into 5 signals (5 second long), it applies the pipeline save from the training step to make a prediction. The
   _prediction_ step is performed on a Raspberry Pi 2B.
 
->Part of the data used for training comes from [ESC-50: Dataset for environmental sound classification]
-(https://github.com/karoldvl/ESC-50)
+>Part of the data used for training comes from
+[ESC-50: Dataset for environmental sound classification](https://github.com/karoldvl/ESC-50)
