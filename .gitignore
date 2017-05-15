@@ -91,3 +91,6 @@ ENV/
 # pyCharm idea
 .idea
 *.iml
+
+# Other files proper to this project
+expand_train_set.py
