@@ -5,6 +5,7 @@ import os
 import pickle
 import logging
 import timeit
+import warnings
 
 from pc_methods import Reader
 from rpi_methods.feature_engineer import FeatureEngineer
@@ -78,8 +79,12 @@ def main():
     logging.info('Predicting...')
     start = timeit.default_timer()
 
-    with open((os.path.join(load_path_model, 'model.pkl')), 'rb') as fp:
-        model = pickle.load(fp)
+    # https://stackoverflow.com/questions/41146759/check-sklearn-version-before-loading-model-using-joblib
+    with warnings.catch_warnings():
+      warnings.simplefilter("ignore", category=UserWarning)
+
+      with open((os.path.join(load_path_model, 'model.pkl')), 'rb') as fp:
+          model = pickle.load(fp)
 
     predictor = BabyCryPredictor(model)
 

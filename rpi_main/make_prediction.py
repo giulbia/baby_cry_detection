@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import pickle
+import warnings
 
 egg_path = '%s/../lib/baby_cry_detection-0.1-py2.7.egg' % os.path.dirname(os.path.abspath(__file__))
 sys.path.append(egg_path)
@@ -19,11 +20,11 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default='%s/../recording/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='%s/../../recording/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--load_path_model',
-                        default='%s/../model/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--save_path',
-                        default='%s/../prediction/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='%s/../../output/prediction/' % os.path.dirname(os.path.abspath(__file__)))
 
     # Arguments
     args = parser.parse_args()
@@ -63,8 +64,12 @@ def main():
     # MAKE PREDICTION
     ####################################################################################################################
 
-    with open((os.path.join(load_path_model, 'model.pkl')), 'rb') as fp:
-        model = pickle.load(fp)
+    # https://stackoverflow.com/questions/41146759/check-sklearn-version-before-loading-model-using-joblib
+    with warnings.catch_warnings():
+      warnings.simplefilter("ignore", category=UserWarning)
+
+      with open((os.path.join(load_path_model, 'model.pkl')), 'rb') as fp:
+          model = pickle.load(fp)
 
     predictor = BabyCryPredictor(model)
 
