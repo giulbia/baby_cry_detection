@@ -10,7 +10,7 @@ not. In the former case a lullaby is played, in the latter the process (recordin
 
 ### Overall schema
 
-<img src="/Users/giuliabianchi/Documents/Xebia/XebiCon16/recap/recap.001.png" alt="schema"/>
+![alt text](/Users/giuliabianchi/Documents/Xebia/XebiCon16/recap/recap.001.png "schema")
 
 ### Code organisation
 
