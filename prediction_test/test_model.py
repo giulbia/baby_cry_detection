@@ -7,15 +7,16 @@ import logging
 import timeit
 import warnings
 
-from pc_methods import Reader
+from rpi_methods import Reader
 from rpi_methods.feature_engineer import FeatureEngineer
 from rpi_methods.baby_cry_predictor import BabyCryPredictor
+from rpi_methods.majority_voter import MajorityVoter
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default='%s/../../external_input' % os.path.dirname(os.path.abspath(__file__)))
+                        default=os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--load_path_model',
                         default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--save_path',
@@ -38,7 +39,7 @@ def main():
 
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
-                        filename=os.path.join(log_path, 'logs_pc_methods_test_model.log'),
+                        filename=os.path.join(log_path, 'logs_prediction_test_test_model.log'),
                         filemode='w',
                         level=logging.INFO)
 
@@ -51,7 +52,8 @@ def main():
 
     # Read signal (first 5 sec)
     file_reader = Reader(os.path.join(load_path_data, file_name))
-    signal, _ = file_reader.read_audio_file()
+
+    play_list = file_reader.read_audio_file()
 
     stop = timeit.default_timer()
     logging.info('Time taken for reading file: {0}'.format(stop - start))
@@ -66,8 +68,11 @@ def main():
     # Feature extraction
     engineer = FeatureEngineer()
 
-    processed_signal = engineer.feature_engineer(signal)
-    # processed_signal.drop('label', axis=1, inplace=True)
+    play_list_processed = list()
+
+    for signal in play_list:
+        tmp = engineer.feature_engineer(signal)
+        play_list_processed.append(tmp)
 
     stop = timeit.default_timer()
     logging.info('Time taken for feature engineering: {0}'.format(stop - start))
@@ -88,10 +93,21 @@ def main():
 
     predictor = BabyCryPredictor(model)
 
-    prediction = predictor.classify(processed_signal)
+    predictions = list()
+
+    for signal in play_list_processed:
+        tmp = predictor.classify(signal)
+        predictions.append(tmp)
+
+    ####################################################################################################################
+    # MAJORITY VOTE
+    ####################################################################################################################
+
+    majority_voter = MajorityVoter(predictions)
+    majority_vote = majority_voter.vote()
 
     stop = timeit.default_timer()
-    logging.info('Time taken for prediction: {0}. Is it a baby cry?? {1}'.format(stop - start, prediction))
+    logging.info('Time taken for prediction: {0}. Is it a baby cry?? {1}'.format(stop - start, majority_vote))
 
     ####################################################################################################################
     # SAVE
@@ -101,9 +117,9 @@ def main():
 
     # Save prediction result
     with open(os.path.join(save_path, 'prediction.txt'), 'wb') as text_file:
-        text_file.write("{0}".format(prediction))
+        text_file.write("{}".format(majority_vote))
 
-    logging.info('Saved! {0}'.format(os.path.join(save_path, 'prediction.txt')))
+    logging.info('Saved! {}'.format(os.path.join(save_path, 'prediction.txt')))
 
 
 if __name__ == '__main__':
