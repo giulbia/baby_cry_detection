@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import os
-import numpy as np
 import logging
+import os
 import re
 import timeit
 
-from pc_methods import Reader
-from pc_methods.feature_engineer import FeatureEngineer
+import numpy as np
+from baby_cry_detection.pc_methods import Reader
+
+from baby_cry_detection.pc_methods.feature_engineer import FeatureEngineer
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path',
-                        default='%s/../data' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../data'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
-                        default='%s/../../output/dataset/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/dataset/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--log_path',
-                        default='%s/../' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../'.format(os.path.dirname(os.path.abspath(__file__))))
 
     # Arguments
     args = parser.parse_args()

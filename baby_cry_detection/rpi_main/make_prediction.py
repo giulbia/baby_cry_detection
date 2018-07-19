@@ -2,29 +2,28 @@
 
 import argparse
 import os
-import sys
 import pickle
+import sys
 import warnings
 
-egg_path = '%s/../lib/baby_cry_detection-0.1-py2.7.egg' % os.path.dirname(os.path.abspath(__file__))
+egg_path = '{}/../../lib/baby_cry_detection-0.1-py2.7.egg'.format(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(egg_path)
 
-from rpi_methods import Reader
-from rpi_methods.baby_cry_predictor import BabyCryPredictor
-from rpi_methods.feature_engineer import FeatureEngineer
-from rpi_methods.majority_voter import MajorityVoter
+from baby_cry_detection.rpi_methods import Reader
+from baby_cry_detection.rpi_methods.baby_cry_predictor import BabyCryPredictor
+from baby_cry_detection.rpi_methods.feature_engineer import FeatureEngineer
+from baby_cry_detection.rpi_methods.majority_voter import MajorityVoter
 
 
 def main():
-    # /!\ ADAPT PATHS /!\
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default='%s/../../recording/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../recording/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--load_path_model',
-                        default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
-                        default='%s/../../output/prediction/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
 
     # Arguments
     args = parser.parse_args()

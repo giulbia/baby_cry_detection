@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import logging
 import os
 import pickle
-import logging
 import timeit
 import warnings
 
 from rpi_methods import Reader
 from rpi_methods.feature_engineer import FeatureEngineer
-from rpi_methods.baby_cry_predictor import BabyCryPredictor
 from rpi_methods.majority_voter import MajorityVoter
+
+from baby_cry_detection.rpi_methods.baby_cry_predictor import BabyCryPredictor
 
 
 def main():

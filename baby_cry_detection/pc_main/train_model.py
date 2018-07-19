@@ -2,23 +2,23 @@
 
 import argparse
 import json
+import logging
 import os
 import pickle
+
 import numpy as np
 
-from pc_methods.train_classifier import TrainClassifier
-
-import logging
+from baby_cry_detection.pc_methods.train_classifier import TrainClassifier
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path',
-                        default='%s/../../output/dataset/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/dataset/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
-                        default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--log_path',
-                        default='%s/../' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../'.format(os.path.dirname(os.path.abspath(__file__))))
 
     # Arguments
     args = parser.parse_args()
