@@ -27,9 +27,9 @@ def main():
 
     # Arguments
     args = parser.parse_args()
-    load_path_data = args.load_path_data
-    load_path_model = args.load_path_model
-    save_path = args.save_path
+    load_path_data = os.path.normpath(args.load_path_data)
+    load_path_model = os.path.normpath(args.load_path_model)
+    save_path = os.path.normpath(args.save_path)
 
     ####################################################################################################################
     # READ RAW SIGNAL

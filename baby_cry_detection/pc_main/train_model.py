@@ -22,9 +22,9 @@ def main():
 
     # Arguments
     args = parser.parse_args()
-    load_path = args.load_path
-    save_path = args.save_path
-    log_path = args.log_path
+    load_path = os.path.normpath(args.load_path)
+    save_path = os.path.normpath(args.save_path)
+    log_path = os.path.normpath(args.log_path)
 
     ####################################################################################################################
     # Set up logging

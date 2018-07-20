@@ -7,9 +7,9 @@ import pickle
 import timeit
 import warnings
 
-from rpi_methods import Reader
-from rpi_methods.feature_engineer import FeatureEngineer
-from rpi_methods.majority_voter import MajorityVoter
+from baby_cry_detection.rpi_methods import Reader
+from baby_cry_detection.rpi_methods.feature_engineer import FeatureEngineer
+from baby_cry_detection.rpi_methods.majority_voter import MajorityVoter
 
 from baby_cry_detection.rpi_methods.baby_cry_predictor import BabyCryPredictor
 
@@ -19,20 +19,20 @@ def main():
     parser.add_argument('--load_path_data',
                         default=os.path.dirname(os.path.abspath(__file__)))
     parser.add_argument('--load_path_model',
-                        default='%s/../../output/model/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
-                        default='%s/../../output/prediction/' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../../output/prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--file_name', default='V_2017-04-01+08_04_36=0_13.mp3')
     parser.add_argument('--log_path',
-                        default='%s/../' % os.path.dirname(os.path.abspath(__file__)))
+                        default='{}/../../'.format(os.path.dirname(os.path.abspath(__file__))))
 
     # Arguments
     args = parser.parse_args()
-    load_path_data = args.load_path_data
-    load_path_model = args.load_path_model
+    load_path_data = os.path.normpath(args.load_path_data)
+    load_path_model = os.path.normpath(args.load_path_model)
     file_name = args.file_name
-    save_path = args.save_path
-    log_path = args.log_path
+    save_path = os.path.normpath(args.save_path)
+    log_path = os.path.normpath(args.log_path)
 
     ####################################################################################################################
     # Set up logging
