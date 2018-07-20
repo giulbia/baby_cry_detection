@@ -19,7 +19,7 @@ class Reader:
 
     def read_audio_file(self):
         """
-        Read audio file using pydub package. Pydub reads the file exactly as it is (no resampling, etc.)
+        Read audio file
 
         :return:
         * audio_data as numpy.ndarray. A two-dimensional NumPy array is returned, where the channels are stored

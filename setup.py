@@ -9,7 +9,7 @@ setup(
     author_email="gbianchi@xebia.fr",
     license='new BSD',
     packages=find_packages(),
-    install_requires=['numpy', 'pandas', 'sklearn', 'pydub', 'librosa'],
+    install_requires=['numpy', 'librosa'],
     tests_require=['pytest', "unittest2"],
     scripts=[],
     py_modules=["baby_cry_detection"],
