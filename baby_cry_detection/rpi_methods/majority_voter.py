@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# from __future__ import division
 
 __all__ = [
     'MajorityVoter'
@@ -15,8 +16,9 @@ class MajorityVoter:
 
     def vote(self):
         """
+        Overall prediction
 
-        :return:
+        :return: 1 if more than half predictions are 1s
         """
 
         if sum(self.predictions) > len(self.predictions)/2.0:

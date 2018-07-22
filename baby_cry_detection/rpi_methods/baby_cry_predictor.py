@@ -37,8 +37,6 @@ class BabyCryPredictor:
         :return: 1 (it's baby cry); 0 (it's not a baby cry)
         """
 
-        # below regex will match '903 - Baby laugh', which gives wrong prediction
-        # match = re.search('([Bb][Aa][Bb][Yy])[^a-zA-Z]*([Cc][Rr][Yy])*', string)
         match = re.search('Crying baby', string)
 
         if match:

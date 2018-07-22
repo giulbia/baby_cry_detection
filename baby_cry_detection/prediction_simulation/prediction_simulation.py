@@ -34,19 +34,14 @@ def main():
     save_path = os.path.normpath(args.save_path)
     log_path = os.path.normpath(args.log_path)
 
-    ####################################################################################################################
-    # Set up logging
-    ####################################################################################################################
-
+     # Set up logging
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
                         filename=os.path.join(log_path, 'logs_prediction_test_test_model.log'),
                         filemode='w',
                         level=logging.INFO)
 
-    ####################################################################################################################
     # READ RAW SIGNAL
-    ####################################################################################################################
 
     logging.info('Reading {0}'.format(file_name))
     start = timeit.default_timer()
@@ -59,9 +54,7 @@ def main():
     stop = timeit.default_timer()
     logging.info('Time taken for reading file: {0}'.format(stop - start))
 
-    ####################################################################################################################
     # FEATURE ENGINEERING
-    ####################################################################################################################
 
     logging.info('Starting feature engineering')
     start = timeit.default_timer()
@@ -78,9 +71,7 @@ def main():
     stop = timeit.default_timer()
     logging.info('Time taken for feature engineering: {0}'.format(stop - start))
 
-    ####################################################################################################################
     # MAKE PREDICTION
-    ####################################################################################################################
 
     logging.info('Predicting...')
     start = timeit.default_timer()
@@ -100,9 +91,7 @@ def main():
         tmp = predictor.classify(signal)
         predictions.append(tmp)
 
-    ####################################################################################################################
     # MAJORITY VOTE
-    ####################################################################################################################
 
     majority_voter = MajorityVoter(predictions)
     majority_vote = majority_voter.vote()
@@ -110,9 +99,7 @@ def main():
     stop = timeit.default_timer()
     logging.info('Time taken for prediction: {0}. Is it a baby cry?? {1}'.format(stop - start, majority_vote))
 
-    ####################################################################################################################
     # SAVE
-    ####################################################################################################################
 
     logging.info('Saving prediction...')
 

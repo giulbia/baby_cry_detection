@@ -5,10 +5,9 @@ import logging
 import os
 import re
 import timeit
-
 import numpy as np
-from baby_cry_detection.pc_methods import Reader
 
+from baby_cry_detection.pc_methods import Reader
 from baby_cry_detection.pc_methods.feature_engineer import FeatureEngineer
 
 
@@ -27,19 +26,14 @@ def main():
     save_path = os.path.normpath(args.save_path)
     log_path = os.path.normpath(args.log_path)
 
-    ####################################################################################################################
     # Set up logging
-    ####################################################################################################################
-
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
                         filename=os.path.join(log_path, 'logs_pc_methods_feat_eng.log'),
                         filemode='w',
                         level=logging.INFO)
 
-    ####################################################################################################################
     # READ FILES IN SUB-FOLDERS of load_path and FEATURE ENGINEERING
-    ####################################################################################################################
 
     # list load_path sub-folders
     regex = re.compile(r'^[0-9]')
@@ -77,15 +71,9 @@ def main():
     stop = timeit.default_timer()
     logging.info('Time taken for reading files and feature engineering: {0}'.format(stop - start))
 
-    ####################################################################################################################
-    # SAVE
-    ####################################################################################################################
-
-    logging.info('Saving training set...')
-
     # Save to numpy binary format
+    logging.info('Saving training set...')
     np.save(os.path.join(save_path, 'dataset.npy'), X)
-
     np.save(os.path.join(save_path, 'labels.npy'), y)
 
     logging.info('Saved! {0}'.format(os.path.join(save_path, 'dataset.npy')))

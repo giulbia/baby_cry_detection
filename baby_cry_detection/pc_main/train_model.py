@@ -26,19 +26,14 @@ def main():
     save_path = os.path.normpath(args.save_path)
     log_path = os.path.normpath(args.log_path)
 
-    ####################################################################################################################
     # Set up logging
-    ####################################################################################################################
-
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
                         filename=os.path.join(log_path, 'logs_pc_methods_model.log'),
                         filemode='w',
                         level=logging.DEBUG)
 
-    ####################################################################################################################
     # TRAIN MODEL
-    ####################################################################################################################
 
     logging.info('Calling TrainClassifier')
 
@@ -48,9 +43,7 @@ def main():
     train_classifier = TrainClassifier(X, y)
     performance, parameters, best_estimator = train_classifier.train()
 
-    ####################################################################################################################
     # SAVE
-    ####################################################################################################################
 
     logging.info('Saving model...')
 
