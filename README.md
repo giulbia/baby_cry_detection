@@ -12,8 +12,8 @@ not. In the former case a lullaby is played, in the latter the process (recordin
 
 The code is organised as follows.
 
-- `./pc_main` and `./pc_methods` folders: to run on a computer, they implement the training part
-- `./rpi_main` and `./rpi_methods` folders: to run on a Raspberry Pi, they implement the predicting part
+- `./baby_cry_detection/pc_main` and `./baby_cry_detection/pc_methods` folders: to run on a computer, they implement the training part
+- `./baby_cry_detection/rpi_main` and `./baby_cry_detection/rpi_methods` folders: to run on a Raspberry Pi, they implement the predicting part
 
 
 ##### TRAINING
@@ -37,11 +37,11 @@ The _prediction_ step is performed on a Raspberry Pi 2B. Please check
 
 Code to run this part is included in `rpi_main` and `rpi_methods`.
 
-##### TEST
+##### SIMULATION
 
 There is a script to test the prediction step on your computer before deployment on Raspberry Pi.
 
-A a script `test_model.py` and 2 audio signals are provided in folder `./prediction_test`.
+A script `prediction_simulation.py` and 2 audio signals are provided in folder `./baby_cry_detection/prediction_simulation`.
 
 ### Run
 
@@ -63,11 +63,11 @@ This step allows you to train the model. Please note that the model itself is no
 
 ```
 # Create and save trainset
-python pc_main/train_set.py
+python baby_cry_detection/pc_main/train_set.py
 ```
 ```
 # Train and save model
-python pc_main/train_model.py
+python baby_cry_detection/pc_main/train_model.py
 ```
 
 Script `train_set.py` saves the trainset in folder _dataset_ and, script `train_model.py` saves the model in folder
@@ -78,12 +78,12 @@ Script `train_set.py` saves the trainset in folder _dataset_ and, script `train_
 
 This step is to be executed on Raspberry Pi. Please refer to [baby_cry_rpi](https://github.com/giulbia/baby_cry_rpi.git)
 
-##### TEST
+##### SIMULATION
 
 This step allows you to test the model on your computer. It uses scripts from `rpi_methods` folder.
 
 ```
-python test/test_model.py
+python baby_cry_detection/prediction_simulation/prediction_simulation.py
 ```
 
 ### Logs

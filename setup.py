@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='baby_cry_detection',
-    version='1.0',
+    version='1.1',
     description='Classification of signals to detect baby cry',
     url="https://github.com/giulbia/baby_cry_detection.git",
     author='Giulia Bianchi',
