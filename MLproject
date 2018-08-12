@@ -1,0 +1,7 @@
+name: baby_cry_detection
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    command: "python baby_cry_detection/pc_main/train_model.py"

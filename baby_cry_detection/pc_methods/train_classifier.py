@@ -9,6 +9,8 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 import numpy as np
 import logging
 import timeit
+import mlflow
+import mlflow.sklearn
 
 
 __all__ = [
@@ -60,21 +62,29 @@ class TrainClassifier:
         logging.info('Training model...')
         start = timeit.default_timer()
 
-        model = estimator.fit(X_train, y_train)
+        with mlflow.start_run():
 
-        stop = timeit.default_timer()
-        logging.info('Time taken: {0}'.format(stop - start))
+            model = estimator.fit(X_train, y_train)
 
-        y_pred = model.predict(X_test)
+            stop = timeit.default_timer()
+            logging.info('Time taken: {0}'.format(stop - start))
 
-        perf = {'accuracy': accuracy_score(y_test, y_pred),
-                'recall': recall_score(y_test, y_pred, average='macro'),
-                'precision': precision_score(y_test, y_pred, average='macro'),
-                'f1': f1_score(y_test, y_pred, average='macro'),
-                # 'summary': classification_report(y_test, y_pred)
-                }
+            y_pred = model.predict(X_test)
 
-        logging.info(perf)
+            perf = {'accuracy': accuracy_score(y_test, y_pred),
+                    'recall': recall_score(y_test, y_pred, average='macro'),
+                    'precision': precision_score(y_test, y_pred, average='macro'),
+                    'f1': f1_score(y_test, y_pred, average='macro'),
+                    # 'summary': classification_report(y_test, y_pred)
+                    }
+
+            logging.info(perf)
+
+            # mlflow.log_param("ciao", 1000)
+            mlflow.log_metric("accuracy", accuracy_score(y_test, y_pred))
+            mlflow.log_metric("recall", recall_score(y_test, y_pred, average='macro'))
+            mlflow.log_metric("precision", precision_score(y_test, y_pred, average='macro'))
+            mlflow.log_metric("f1", f1_score(y_test, y_pred, average='macro'))
 
         return perf, model.best_params_, model.best_estimator_
 

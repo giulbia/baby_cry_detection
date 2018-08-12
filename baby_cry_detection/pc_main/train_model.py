@@ -47,17 +47,17 @@ def main():
 
     logging.info('Saving model...')
 
-    # Save performances
-    with open(os.path.join(save_path, 'performance.json'), 'w') as fp:
-        json.dump(performance, fp)
-
-    # Save parameters
-    with open(os.path.join(save_path, 'parameters.json'), 'w') as fp:
-        json.dump(parameters, fp)
-
-    # Save model
-    with open(os.path.join(save_path, 'model.pkl'), 'wb') as fp:
-        pickle.dump(best_estimator, fp)
+    # # Save performances
+    # with open(os.path.join(save_path, 'performance.json'), 'w') as fp:
+    #     json.dump(performance, fp)
+    #
+    # # Save parameters
+    # with open(os.path.join(save_path, 'parameters.json'), 'w') as fp:
+    #     json.dump(parameters, fp)
+    #
+    # # Save model
+    # with open(os.path.join(save_path, 'model.pkl'), 'wb') as fp:
+    #     pickle.dump(best_estimator, fp)
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,13 @@
+artifact_uri: /Users/giuliabianchi/Documents/Xebia/XebiCon16/Scripts/baby_cry_detection/mlruns/0/9e0512b6d0cf437c9a431c05d9d29bf3/artifacts
+end_time: 1534083059456
+entry_point_name: main
+experiment_id: 0
+name: Run 0
+run_uuid: 9e0512b6d0cf437c9a431c05d9d29bf3
+source_name: /Users/giuliabianchi/Documents/Xebia/XebiCon16/Scripts/baby_cry_detection
+source_type: 3
+source_version: 68399dc694448848af23ad173c7258cd9c20672d
+start_time: 1534083032032
+status: 3
+tags: []
+user_id: giuliabianchi
