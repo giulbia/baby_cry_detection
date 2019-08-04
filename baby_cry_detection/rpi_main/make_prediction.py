@@ -6,7 +6,7 @@ import pickle
 import sys
 import warnings
 
-egg_path = '{}/../../lib/baby_cry_detection-1.1-py2.7.egg'.format(os.path.dirname(os.path.abspath(__file__)))
+egg_path = '{}/../lib/baby_cry_detection-1.1-py2.7.egg'.format(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(egg_path)
 
 from baby_cry_detection.rpi_methods import Reader
@@ -19,11 +19,11 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_path_data',
-                        default='{}/../../../recording/'.format(os.path.dirname(os.path.abspath(__file__))))
+                        default='{}/../recording/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--load_path_model',
-                        default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
+                        default='{}/../model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
-                        default='{}/../../../output/prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
+                        default='{}/../prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
 
     # Arguments
     args = parser.parse_args()
