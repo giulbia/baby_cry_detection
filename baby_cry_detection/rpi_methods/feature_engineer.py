@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth, rmse
+from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth, rms
 
 
 __all__ = [
@@ -57,13 +57,17 @@ class FeatureEngineer:
         :return: np array
         """
 
+        ## /!\ rmse in librosa 0.4.3 and 0.5.0
+        ## /!\ rms in librosa 0.7.0
+
+        ## /!\ librosa 0.5.0
         # if rmse_feat.shape == (1, 427):
         #     rmse_feat = np.concatenate((rmse_feat, np.zeros((1, 4))), axis=1)
 
         if feat_name == 'zero_crossing_rate':
             return zero_crossing_rate(y=audio_data, hop_length=self.FRAME)
         elif feat_name == 'rmse':
-            return rmse(y=audio_data, hop_length=self.FRAME)
+            return rms(y=audio_data, hop_length=self.FRAME)
         elif feat_name == 'mfcc':
             return mfcc(y=audio_data, sr=self.RATE, n_mfcc=13)
         elif feat_name == 'spectral_centroid':
