@@ -4,7 +4,7 @@ import numpy as np
 import logging
 import timeit
 from librosa.feature import zero_crossing_rate, mfcc, spectral_centroid, spectral_rolloff, spectral_bandwidth,\
-    chroma_cens, rmse
+    chroma_cens, rms #rms in librpsa 0.7.0, rmse in previous version
 
 __all__ = [
     'FeatureEngineer'
@@ -78,7 +78,7 @@ class FeatureEngineer:
         if feat_name == 'zero_crossing_rate':
             return zero_crossing_rate(y=audio_data, hop_length=self.FRAME)
         elif feat_name == 'rmse':
-            return rmse(y=audio_data, hop_length=self.FRAME)
+            return rms(y=audio_data, hop_length=self.FRAME)
         elif feat_name == 'mfcc':
             return mfcc(y=audio_data, sr=self.RATE, n_mfcc=13)
         elif feat_name == 'spectral_centroid':
