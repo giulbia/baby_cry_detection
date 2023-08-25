@@ -22,7 +22,7 @@ def main():
                         default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
                         default='{}/../../../output/prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
-    parser.add_argument('--file_name', default='V_2017-04-01+08_04_36=0_13.mp3')
+    parser.add_argument('--file_name') # mp3 file is generating NoBackednd error
     parser.add_argument('--log_path',
                         default='{}/../../'.format(os.path.dirname(os.path.abspath(__file__))))
 
