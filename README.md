@@ -78,6 +78,13 @@ Script `train_set.py` saves the trainset in folder _dataset_ and, script `train_
 
 This step is to be executed on Raspberry Pi. Please refer to [baby_cry_rpi](https://github.com/giulbia/baby_cry_rpi.git)
 
+##### PREDICTION ON PC
+
+this added step to test the same functionality on the pc using s shell, use sh baby_cry-sh.sh,
+it uses the sox utility for macOS  to use the microphone 
+brew install sox
+
+
 ##### SIMULATION
 
 This step allows you to test the model on your computer. It uses scripts from `rpi_methods` folder.
