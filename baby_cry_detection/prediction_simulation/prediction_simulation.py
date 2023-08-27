@@ -7,6 +7,7 @@ import pickle
 import timeit
 import warnings
 
+
 from baby_cry_detection.rpi_methods import Reader
 from baby_cry_detection.rpi_methods.feature_engineer import FeatureEngineer
 from baby_cry_detection.rpi_methods.majority_voter import MajorityVoter
@@ -22,7 +23,7 @@ def main():
                         default='{}/../../../output/model/'.format(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument('--save_path',
                         default='{}/../../../output/prediction/'.format(os.path.dirname(os.path.abspath(__file__))))
-    parser.add_argument('--file_name') # mp3 file is generating NoBackednd error
+    parser.add_argument('--file_name', default='V_2017-04-01+08_04_36=0_13.mp3') # is mp3 sound whil will generate No Backend error
     parser.add_argument('--log_path',
                         default='{}/../../'.format(os.path.dirname(os.path.abspath(__file__))))
 
@@ -38,7 +39,7 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
                         filename=os.path.join(log_path, 'logs_prediction_test_test_model.log'),
-                        filemode='w',
+                        filemode='a',
                         level=logging.INFO)
 
     # READ RAW SIGNAL
@@ -59,7 +60,7 @@ def main():
     logging.info('Starting feature engineering')
     start = timeit.default_timer()
 
-    # Feature extraction
+    # Feature extraction    
     engineer = FeatureEngineer()
 
     play_list_processed = list()
@@ -97,18 +98,29 @@ def main():
     majority_vote = majority_voter.vote()
 
     stop = timeit.default_timer()
-    logging.info('Time taken for prediction: {0}. Is it a baby cry?? {1}'.format(stop - start, majority_vote))
+    logging.info('Time taken for prediction: {0}. Is it a baby cry??'.format(stop - start))
+
+    if majority_vote == 1:
+        logging.info('Baby crying')
+        result = 1
+    else:
+        logging.info('Baby is relaxing')
+        result = 0
+
+
+
+
 
     # SAVE
 
     logging.info('Saving prediction...')
 
     # Save prediction result
-    with open(os.path.join(save_path, 'prediction.txt'), 'wb') as text_file:
+    with open(os.path.join  (save_path, 'prediction.txt'), 'w') as text_file:
         text_file.write("{}".format(majority_vote))
 
     logging.info('Saved! {}'.format(os.path.join(save_path, 'prediction.txt')))
-
+    return result
 
 if __name__ == '__main__':
     main()

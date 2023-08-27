@@ -72,6 +72,8 @@ def main():
     logging.info('Time taken for reading files and feature engineering: {0}'.format(stop - start))
 
     # Save to numpy binary format
+    os.makedirs(save_path, exist_ok=True)
+
     logging.info('Saving training set...')
     np.save(os.path.join(save_path, 'dataset.npy'), X)
     np.save(os.path.join(save_path, 'labels.npy'), y)
