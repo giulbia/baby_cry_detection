@@ -30,7 +30,7 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %I:%M:%S %p',
                         filename=os.path.join(log_path, 'logs_pc_methods_model.log'),
-                        filemode='w',
+                        filemode='a',
                         level=logging.DEBUG)
 
     # TRAIN MODEL
@@ -56,7 +56,7 @@ def main():
         json.dump(parameters, fp)
 
     # Save model
-    with open(os.path.join(save_path, 'model.pkl'), 'wb') as fp:
+    with open(os.path.join(save_path, 'model_1.pkl'), 'wb') as fp:
         pickle.dump(best_estimator, fp)
 
 if __name__ == '__main__':
